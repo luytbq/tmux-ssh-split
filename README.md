@@ -1,5 +1,14 @@
 # 🎛️ TMUX SSH Split
 
+> **Note:** This is a fork of [pschmitt/tmux-ssh-split](https://github.com/pschmitt/tmux-ssh-split).
+>
+> **What I changed:**
+> - Simplified `is_linux()` and `is_macos()` functions by removing unnecessary lowercase conversion since `uname -s` output is standardized ("Linux" and "Darwin")
+> - Fixed awk regex compatibility on macOS/BSD by replacing `\s` with `[[:space:]]` (BSD awk doesn't support `\s`)
+> - Added `-ax` flag to `ps` command to reliably find SSH child processes
+>
+> These changes fix macOS/BSD compatibility issues that prevented the plugin from working correctly on those platforms.
+
 [![](./tmux-ssh-split.gif)](https://asciinema.org/a/335250)
 
 This TMUX plugin is a modern iteration of the concept
