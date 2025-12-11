@@ -12,15 +12,11 @@ usage() {
 }
 
 is_linux() {
-  local os
-  os=$(uname -s)
-  [[ "${os,,}" == "linux" ]]
+  [[ "$(uname -s)" == "Linux" ]]
 }
 
 is_macos() {
-  local os
-  os=$(uname -s)
-  [[ "${os,,}" == "darwin" ]]
+  [[ "$(uname -s)" == "Darwin" ]]
 }
 
 get_current_pane_info() {
@@ -269,8 +265,9 @@ get_child_cmds() {
     # https://github.com/pschmitt/tmux-ssh-split/pull/6
     # NOTE Shouldn't we use "ps a" here?
     # shellcheck disable=SC2009
-    ps -o ppid=,pid=,command= | \
-      awk '/^\s*'"${ppid}"'\s+/ { $1=""; print $0 }'
+    # Use [[:space:]] instead of \s for BSD awk compatibility on macOS
+    ps -ax -o ppid=,pid=,command= | \
+      awk '/^[[:space:]]*'"${ppid}"'[[:space:]]+/ { $1=""; print $0 }'
     return "$?"
   fi
 
